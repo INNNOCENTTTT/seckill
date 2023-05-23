@@ -1,0 +1,64 @@
+Spring:
+  # Thymeleaf??
+  Thymeleaf:
+    # ????
+    cache: false
+  # ?????
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://123.249.4.0:3306/seckill?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: newuser
+    password: zhU12345@
+    # ???
+    hikari:
+      # ????
+      pool-name: DataHikariCP
+      # ???????
+      minimum-idle: 5
+      # ???????????????600000
+      idle-timeout: 1800000
+      # ?????
+      maximum-pool-size: 10
+      # ?????????????
+      auto-commit: true
+      # ?????????0?????????30??
+      max-lifetime: 1800000
+      # ?????????30000?30?
+      connection-timeout: 3000
+      # heartbeat
+      connection-test-query: SELECT 1
+#  redis config
+  redis:
+#    host
+    host: 123.249.4.0
+#    password
+    password: 123456
+#    port
+    port: 6379
+#    database
+    database: 0
+#    time to connect
+    timeout: 10998ms
+
+    lettuce:
+      pool:
+#        max time to wait default -1
+        max-wait: 10000ms
+#        max active connections default 8
+        max-active: 8
+#        max idle connections defalut 8
+        max-idle: 200
+#        min idle connections defalut 8
+        min-idle: 5
+
+
+  # mybatis-plus
+  mybatis-plus:
+    # ??Mapper.xml????
+    mapper-locations: classpath*:/mapper/*.xml
+    # ??MyBatis?????????????????
+    type-aliases-package: com.example.seckill.pojo
+  # mybatis sql??????????? ?
+  logging:
+    level:
+      com.example.sekill.mapper: debug
