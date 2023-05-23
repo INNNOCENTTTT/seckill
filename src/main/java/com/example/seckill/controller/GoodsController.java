@@ -3,7 +3,9 @@ package com.example.seckill.controller;
 import com.example.seckill.pojo.User;
 import com.example.seckill.service.IGoodsService;
 import com.example.seckill.service.IUserService;
+import com.example.seckill.vo.DetailVo;
 import com.example.seckill.vo.GoodsVo;
+import com.example.seckill.vo.RespBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -82,15 +84,50 @@ public class GoodsController {
     }
 
     /**
-     * 跳转物品详情页
-     * @param model
+     * 向前端ajax请求返回数据，避免redis中缓存整个页面，把thymeleaf模板换成了静态页面
      * @param user
      * @param goodsId
+     * @param req
+     * @param resp
      * @return
      */
-    @RequestMapping(value = "/toDetail/{goodsId}", produces = {"text/html;charset=UTF-8"})
+    @RequestMapping(value = "/detail/{goodsId}")
     @ResponseBody
-    public String toDetail(Model model, User user, @PathVariable Long goodsId, HttpServletRequest req, HttpServletResponse resp) {
+    public RespBean toDetail(User user, @PathVariable Long goodsId, HttpServletRequest req, HttpServletResponse resp) {
+        GoodsVo goodsVo = goodsService.findGoodsVoByGoodsId(goodsId);
+        Date startDate = goodsVo.getStartDate();
+        Date endDate = goodsVo.getEndDate();
+        Date nowDate = new Date();
+        // 秒杀状态
+        int secKillStatus = 0;
+        // 秒杀倒计时
+        int remainSeconds = 0;
+        // 秒杀未开始
+        if(nowDate.before(startDate)) {
+            remainSeconds = (int)(startDate.getTime() - nowDate.getTime()) / 1000;
+        }
+        // 秒杀已结束
+        else if(nowDate.after(endDate)) {
+            secKillStatus = 2;
+            remainSeconds = -1;
+        }
+        // 秒杀中
+        else {
+            secKillStatus = 1;
+            remainSeconds = 0;
+        }
+        DetailVo detailVo = new DetailVo();
+        detailVo.setUser(user);
+        detailVo.setGoodsVo(goodsVo);
+        detailVo.setSecKillStatus(secKillStatus);
+        detailVo.setRemainSeconds(remainSeconds);
+        return RespBean.success(detailVo);
+    }
+
+
+    @RequestMapping(value = "/toDetail2/{goodsId}", produces = {"text/html;charset=UTF-8"})
+    @ResponseBody
+    public String toDetail2(Model model, User user, @PathVariable Long goodsId, HttpServletRequest req, HttpServletResponse resp) {
         // 从Redis中获取页面，如果不为空，直接返回页面
         ValueOperations valueOperations = redisTemplate.opsForValue();
         String html = (String) valueOperations.get("goodsDetail:" + goodsId);

@@ -72,7 +72,7 @@
         var timeout;
         //秒杀还未开始
         if (remainSeconds > 0) {
-            $("#buyButton").attr("disabled", true);
+            $("#buyButton").attr("disabled", true);     //按钮置灰
             timeout = setTimeout(function () {
                 $("#countDown").text(remainSeconds - 1);
                 $("#remainSeconds").val(remainSeconds - 1);
@@ -80,16 +80,15 @@
             }, 1000);
             // 秒杀进行中
         } else if (remainSeconds == 0) {
-            $("#buyButton").attr("disabled", false);
+            $("#buyButton").attr("disabled", false);    //按钮显示
             if (timeout) {
                 clearTimeout(timeout);
             }
             $("#seckillTip").html("秒杀进行中")
         } else {
-            $("#buyButton").attr("disabled", true);
+            $("#buyButton").attr("disabled", true);      //按钮置灰
             $("#seckillTip").html("秒杀已经结束");
         }
     };
-
 </script>
 </html>

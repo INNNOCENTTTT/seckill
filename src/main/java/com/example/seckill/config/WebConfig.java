@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -28,6 +30,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Autowired
     private UserArgumentResolver userArgumentResolver;
 
+    @Autowired
+    private AccessLimitInterceptor accessLimitInterceptor;
+
     /**
      * 设置每个方法的入参都传User
      * @param resolvers
@@ -46,5 +51,13 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
                 .addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
+    }
+
+    /**
+     * 添加拦截器
+     * @param registry
+     */
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(accessLimitInterceptor);
     }
 }

@@ -1,4 +1,21 @@
 Spring:
+  resources:
+    # enable default static resources process
+    add-mappings: true
+    cache:
+      cachecontrol:
+        # cache
+        max-age: 3600
+    chain:
+      # enable resources chain cache, default true
+      cache: true
+      # enable resources chain, default false
+      enabled: true
+      # enable compressed(gzip, brotli), default false
+      compressed: true
+      # enable h5 cache
+      html-application-cache: true
+#    static-location: classpath:/static/
   # Thymeleaf??
   Thymeleaf:
     # ????
@@ -6,9 +23,9 @@ Spring:
   # ?????
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: 
-    username: 
-    password: 
+    url: jdbc:mysql://123.249.4.0:3306/seckill?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: newuser
+    password: zhU12345@
     # ???
     hikari:
       # ????
@@ -30,15 +47,52 @@ Spring:
 #  redis config
   redis:
 #    host
-    host: 
+    host: 123.249.4.0
 #    password
-    password: 
+    password: 123456
 #    port
     port: 6379
 #    database
     database: 0
 #    time to connect
     timeout: 10998ms
+# rabbitmq
+  rabbitmq:
+    # host ip
+    host: 123.249.4.0
+    # username
+    username: guest
+    # password
+    password: guest
+    # virtual-host
+    virtual-host: /
+    # port
+    port: 5672
+    listener:
+      simple:
+        # consumer min
+        concurrency: 10
+        # consumer max
+        max-concurrency: 10
+        # limit consumer get one message per time
+        prefetch: 1
+        # start with default start container. default true
+        auto-startup: true
+        # if consumer reject message, message requeue, default true
+        default-requeue-rejected: true
+    template:
+      retry:
+        # enable retry
+        enabled: true
+        # retry time, default 1000ms
+        initial-interval: 1000ms
+        # max retry times, default 3
+        max-attempts: 3
+        # max retry interval, default 10000ms
+        max-interval: 10000ms
+        # retry interval multiplier, first = 10, second = 20 if multiplier = 2
+        multiplier: 1
+
 
     lettuce:
       pool:
@@ -50,6 +104,7 @@ Spring:
         max-idle: 200
 #        min idle connections defalut 8
         min-idle: 5
+
 
 
   # mybatis-plus

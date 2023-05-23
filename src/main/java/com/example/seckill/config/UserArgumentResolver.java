@@ -55,11 +55,6 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
         HttpServletRequest req = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
         HttpServletResponse resp= nativeWebRequest.getNativeResponse(HttpServletResponse.class);
-        String ticket = CookieUtil.getCookieValue(req, "userTicket");
-        if(StringUtils.isEmpty(ticket)) {
-            return null;
-        }
-        //  最终返回的结果会直接传给对应的controller方法，所以controller可以接收到User对象作为参数
-        return userService.getUserByCookie(ticket, req, resp);
+        return UserContext.getUser();
     }
 }
