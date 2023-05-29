@@ -6,9 +6,9 @@ Spring:
   # ?????
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://123.249.4.0:3306/seckill?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-    username: newuser
-    password: zhU12345@
+    url: 
+    username: 
+    password: 
     # ???
     hikari:
       # ????
@@ -30,9 +30,9 @@ Spring:
 #  redis config
   redis:
 #    host
-    host: 123.249.4.0
+    host: 
 #    password
-    password: 123456
+    password: 
 #    port
     port: 6379
 #    database
