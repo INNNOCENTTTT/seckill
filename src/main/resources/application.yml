@@ -23,9 +23,9 @@ Spring:
   # ?????
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://123.249.4.0:3306/seckill?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-    username: newuser
-    password: zhU12345@
+    url: jdbc:mysql://url/seckill?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: 
+    password: 
     # ???
     hikari:
       # ????
@@ -59,7 +59,7 @@ Spring:
 # rabbitmq
   rabbitmq:
     # host ip
-    host: 123.249.4.0
+    host: url
     # username
     username: guest
     # password
